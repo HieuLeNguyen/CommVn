@@ -162,6 +162,7 @@ extension UIViewController {
         field.layer.borderColor = UIColor.lightGray.cgColor
         field.layer.borderWidth = 1
         field.clearButtonMode = .whileEditing
+        field.layer.shadowPath = UIBezierPath(rect: field.bounds).cgPath // fixbug "The layer is using dynamic shadows which are expensive to render. If possible try setting shadowPath..."
         
         // Cấu hình leftView
         field.leftViewMode = .always
