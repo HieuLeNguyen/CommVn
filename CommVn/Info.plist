@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Vui lòng cho phép truy cập để chọn một ảnh cho hồ sơ</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Vui lòng cho phép truy cập để chụp ảnh hồ sơ</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

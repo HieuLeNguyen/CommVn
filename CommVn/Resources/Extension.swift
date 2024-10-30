@@ -52,10 +52,10 @@ extension UITextField {
         
         if isSecureTextEntry {
             isSecureTextEntry = false
-            iconImageView.image = UIImage(systemName: "eye")
+            iconImageView.image = UIImage(named: "eye")
         } else {
             isSecureTextEntry = true
-            iconImageView.image = UIImage(systemName: "eye.slash")
+            iconImageView.image = UIImage(named: "eye.slash")
         }
     }
 }
@@ -76,12 +76,15 @@ extension UIButton {
     }
     
     @objc private func buttonTouchUp(_ sender: UIButton) {
-        sender.backgroundColor = (sender.title(for: .normal) == "Register") ? .systemGreen : .accent // Màu nền khi nhả
+        sender.backgroundColor = .accent // Màu nền khi nhả
     }
     
 }
 
-/** Ex used:
+/** 
+ @@ Tuỳ chỉnh đoạn text, label: Màu riêng biệt
+ 
+ - Ex used:
  private let descriptionLabel: UILabel = {
  let label = UILabel()
  let _text = "Don't have an account? Sign Up"
@@ -137,3 +140,48 @@ extension AttributedTextConfigurable {
     }
 }
 
+//MARK: - Phương thức tạo text field
+extension UIViewController {
+    /**
+     Cho phép tuỳ chỉnh "plaveholder, ... Có thể nhận vào một RightView. (biểu tượng eye)
+     */
+    func createTextField(
+        placeholder: String,
+        returnKeyType: UIReturnKeyType = .continue,
+        isSecureTextEntry: Bool = false,
+        textContentType: UITextContentType? = nil,
+        autocapitalizationType: UITextAutocapitalizationType = .none,
+        rightView: UIImageView? = nil
+    ) -> UITextField {
+        let field = UITextField()
+        
+        // Cấu hình các thuộc tính của UITextField
+        field.heightAnchor.constraint(equalToConstant: 52).isActive = true
+        field.borderStyle = .none
+        field.layer.cornerRadius = 12
+        field.layer.borderColor = UIColor.lightGray.cgColor
+        field.layer.borderWidth = 1
+        field.clearButtonMode = .whileEditing
+        
+        // Cấu hình leftView
+        field.leftViewMode = .always
+        field.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
+        
+        // Cấu hình auto chỉnh sửa và kiểu chữ viết hoa
+        field.autocorrectionType = .no
+        field.autocapitalizationType = autocapitalizationType
+        
+        // Cấu hình các thuộc tính chung khác
+        field.placeholder = placeholder
+        field.returnKeyType = returnKeyType
+        field.isSecureTextEntry = isSecureTextEntry
+        field.textContentType = textContentType
+        
+        // Cấu hình rightView (nếu có)
+        if let rightView {
+            field.addShowPassword(rightView)
+        }
+
+        return field
+    }
+}

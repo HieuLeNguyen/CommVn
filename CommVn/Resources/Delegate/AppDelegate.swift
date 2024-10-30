@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         Thread.sleep(forTimeInterval: 1)
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.layoutIfNeededOnUpdate = true
+        // Ẩn bàn phím khi tap ra bên ngoài
+        IQKeyboardManager.shared.resignOnTouchOutside = true
+
         return true
     }
 

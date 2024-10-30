@@ -3,14 +3,6 @@ import UIKit
 class LoginViewController: UIViewController {
     
     //MARK: - Properties
-    private let scrollView: UIScrollView = {
-        let _scrollView = UIScrollView()
-        _scrollView.clipsToBounds = true
-        _scrollView.showsHorizontalScrollIndicator = false
-        _scrollView.showsVerticalScrollIndicator = false
-        return _scrollView
-    }()
-    
     private let logoImgView: UIImageView = {
         let _imageView = UIImageView()
         _imageView.image = UIImage(named: "logo")
@@ -18,56 +10,21 @@ class LoginViewController: UIViewController {
         return _imageView
     }()
     
-    private let emailTF: UITextField = {
-        let _textField = UITextField()
-        _textField.placeholder = "Email Address..."
-        _textField.autocapitalizationType = .none // off capital
-        _textField.autocorrectionType = .no // off auto edit "."
-        _textField.returnKeyType = .continue
-        _textField.layer.cornerRadius = 12
-        _textField.layer.borderColor = UIColor.lightGray.cgColor
-        _textField.layer.borderWidth = 1
-        
-        _textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
-        _textField.leftViewMode = .always
-        
-        return _textField
+    private let stackView: UIStackView = {
+        let _stackView = UIStackView()
+        _stackView.axis = .vertical
+        _stackView.distribution = .fill
+        _stackView.spacing = 20
+        _stackView.alignment = .fill
+        return _stackView
     }()
     
-    private let repoEmailLabel: UILabel = {
-        let _label = UILabel()
-        _label.textColor = .error
-        _label.text = ""
-        _label.font = .systemFont(ofSize: 12, weight: .medium)
-        _label.textAlignment = .left
-        _label.numberOfLines = 0
-        return _label
-    }()
-    
-    //MARK: -- Password Text Field
-    private let passwordTF: UITextField = {
-        let _textField = UITextField()
-        _textField.placeholder = "Password..."
-        _textField.autocapitalizationType = .none
-        _textField.autocorrectionType = .no
-        _textField.returnKeyType = .done
-        _textField.layer.borderColor = UIColor.lightGray.cgColor
-        _textField.layer.borderWidth = 1
-        _textField.layer.cornerRadius = 12
-        _textField.isSecureTextEntry = true
-        
-        _textField.leftView = UIView(frame: CGRect(x: 0,
-                                                   y: 0,
-                                                   width: 15,
-                                                   height: 0))
-        _textField.leftViewMode = .always
-        
-        return _textField
-    }()
+    private lazy var emailTF: UITextField = createTextField(placeholder: "Email...")
+    private lazy var passwordTF: UITextField = createTextField(placeholder: "Mật khẩu...", isSecureTextEntry: true, textContentType: .password, rightView: eyeIcon)
     
     private let eyeIcon: UIImageView = {
         let _imageView = UIImageView()
-        _imageView.image = UIImage(systemName: "eye.slash")
+        _imageView.image = UIImage(named: "eye.slash")
         _imageView.tintColor = .lightGray
         _imageView.frame = CGRect(x: 0,
                                   y: 0,
@@ -76,29 +33,9 @@ class LoginViewController: UIViewController {
         return _imageView
     }()
     
-    private let rightViewTF: UIView = {
-        let _view = UIView()
-        _view.frame = CGRect(x: 0,
-                             y: 0,
-                             width: 24 + 15,
-                             height: 24)
-        return _view
-    }()
-    
-    private let repoPwLabel: UILabel = {
-        let _label = UILabel()
-        _label.textColor = .error
-        _label.text = ""
-        _label.font = .systemFont(ofSize: 12, weight: .medium)
-        _label.textAlignment = .left
-        _label.numberOfLines = 0
-        return _label
-    }()
-    
-    //MARK: -- Login Button
     private let loginButton: UIButton = {
         let _button = UIButton()
-        _button.setTitle("Log In", for: .normal)
+        _button.setTitle("Đăng nhập", for: .normal)
         _button.backgroundColor = .accent
         _button.setTitleColor(.white, for: .normal)
         _button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
@@ -111,44 +48,14 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        configurations()
     }
     
-    //MARK: - Layout SubView
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        scrollView.frame = view.bounds
-        
-        let size = scrollView.width / 3
-        logoImgView.frame = CGRect(x: (scrollView.width - size) / 2,
-                                   y: 20,
-                                   width: size,
-                                   height: size)
-        emailTF.frame = CGRect(x: 30,
-                               y: logoImgView.bottom + 30,
-                               width: scrollView.width - 60,
-                               height: 52)
-        repoEmailLabel.frame = CGRect(x: 30,
-                                      y: emailTF.bottom + 4,
-                                      width: scrollView.width - 60,
-                                      height: 24)
-        passwordTF.frame = CGRect(x: 30,
-                                  y: repoEmailLabel.bottom + 4,
-                                  width: scrollView.width - 60,
-                                  height: 52)
-        repoPwLabel.frame = CGRect(x: 30,
-                                   y: passwordTF.bottom + 4,
-                                   width: scrollView.width - 60,
-                                   height: 24)
-        loginButton.frame = CGRect(x: 30,
-                                   y: repoPwLabel.bottom + 20,
-                                   width: scrollView.width - 60,
-                                   height: 52)
-    }
     
     //MARK: - Login Button Tapped
     @objc private func loginButtonTapped() {
-        repoEmailLabel.text = ""
-        repoPwLabel.text = ""
+        emailTF.placeholder = "Email..."
+        passwordTF.placeholder = "Mật khẩu..."
         emailTF.layer.borderColor = UIColor.lightGray.cgColor
         passwordTF.layer.borderColor = UIColor.lightGray.cgColor
         
@@ -156,18 +63,21 @@ class LoginViewController: UIViewController {
         passwordTF.resignFirstResponder()
         
         if let emailError = TextFieldValidator.validateEmail(emailTF.text) {
-            repoEmailLabel.text = emailError.localizedDescription
+            emailTF.text = ""
+            emailTF.placeholder = emailError.localizedDescription
             emailTF.layer.borderColor = UIColor.error.cgColor
             return
         }
         if let passwordError = TextFieldValidator.validatePassword(passwordTF.text) {
-            repoPwLabel.text = passwordError.localizedDescription
+            passwordTF.text = ""
+            passwordTF.placeholder = passwordError.localizedDescription
             passwordTF.layer.borderColor = UIColor.error.cgColor
             return
         }
         // test pw
         if passwordTF.text != "123456" {
-            repoPwLabel.text = "Mật khẩu không đúng!"
+            passwordTF.text = ""
+            passwordTF.placeholder = "Mật khẩu không đúng!"
             passwordTF.layer.borderColor = UIColor.error.cgColor
             return
         }
@@ -179,19 +89,19 @@ class LoginViewController: UIViewController {
     //MARK: - Did Tap Register
     @objc private func didTapRegister() {
         let registerVC = RegisterViewController()
-        registerVC.title = "Create Account"
+        registerVC.title = "Tạo tài khoản"
         navigationController?.pushViewController(registerVC, animated: true)
     }
 }
 
 extension LoginViewController {
     
-    //MARK: - Setup Views
-    private func setupViews() {
-        view.backgroundColor = .white
-        title = "CommVN"
+    //MARK: - Configurations
+    private func configurations(){
+        emailTF.delegate = self
+        passwordTF.delegate = self
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Register",
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Đăng ký",
                                                             style: .done,
                                                             target: self,
                                                             action: #selector(didTapRegister))
@@ -199,26 +109,43 @@ extension LoginViewController {
         loginButton.addTarget(self,
                               action: #selector(loginButtonTapped),
                               for: .touchUpInside)
+    }
+    
+    //MARK: - Setup Views
+    private func setupViews() {
+        let sizeImage = view.width / 3
+        view.backgroundColor = .systemBackground
+        title = ""
         
-        // Add eyeIcon in passwordTF
-        passwordTF.addShowPassword(eyeIcon)
+        view.addSubview(logoImgView)
+        view.addSubview(stackView)
+        view.addSubview(loginButton)
+        logoImgView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        loginButton.translatesAutoresizingMaskIntoConstraints = false
         
-        emailTF.delegate = self
-        passwordTF.delegate = self
+        stackView.addArrangedSubview(emailTF)
+        stackView.addArrangedSubview(passwordTF)
         
-        // Add subviews
-        view.addSubview(scrollView)
-        scrollView.addSubview(logoImgView)
-        scrollView.addSubview(emailTF)
-        scrollView.addSubview(repoEmailLabel)
-        scrollView.addSubview(passwordTF)
-        scrollView.addSubview(repoPwLabel)
-        /// subview
-        rightViewTF.addSubview(eyeIcon)
-        eyeIcon.center = rightViewTF.center
-        passwordTF.rightView = rightViewTF
+        logoImgView.layer.cornerRadius = sizeImage / 2
+        NSLayoutConstraint.activate([
+            logoImgView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            logoImgView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logoImgView.heightAnchor.constraint(equalToConstant: sizeImage),
+        ])
         
-        scrollView.addSubview(loginButton)
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: logoImgView.bottomAnchor, constant: 30),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
+        
+        NSLayoutConstraint.activate([
+            loginButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            loginButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            loginButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 30),
+            loginButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
 }
 

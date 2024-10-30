@@ -1,0 +1,6 @@
+framework module Pods_CommVn {
+  umbrella header "Pods-CommVn-umbrella.h"
+
+  export *
+  module * { export * }
+}

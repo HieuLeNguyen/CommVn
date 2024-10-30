@@ -24,6 +24,7 @@
 		008243782CAFC9E900E0DAE2 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008243772CAFC9E900E0DAE2 /* Extension.swift */; };
 		0082437B2CB1407D00E0DAE2 /* TextFieldValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0082437A2CB1407D00E0DAE2 /* TextFieldValidator.swift */; };
 		0082437D2CB140EE00E0DAE2 /* TextFieldError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0082437C2CB140EE00E0DAE2 /* TextFieldError.swift */; };
+		00CE66792CD0E4F4003C2FF2 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 00CE66782CD0E4F4003C2FF2 /* IQKeyboardManagerSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 			files = (
 				00329F8D2CD0808900D9CCE0 /* TOCropViewController in Frameworks */,
 				00329F8B2CD0808900D9CCE0 /* CropViewController in Frameworks */,
+				00CE66792CD0E4F4003C2FF2 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +183,7 @@
 			packageProductDependencies = (
 				00329F8A2CD0808900D9CCE0 /* CropViewController */,
 				00329F8C2CD0808900D9CCE0 /* TOCropViewController */,
+				00CE66782CD0E4F4003C2FF2 /* IQKeyboardManagerSwift */,
 			);
 			productName = CommVn;
 			productReference = 0082434D2CAFB2ED00E0DAE2 /* CommVn.app */;
@@ -212,6 +215,7 @@
 			mainGroup = 008243442CAFB2ED00E0DAE2;
 			packageReferences = (
 				00329F892CD0808900D9CCE0 /* XCRemoteSwiftPackageReference "TOCropViewController" */,
+				00CE66772CD0E4F4003C2FF2 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = 0082434E2CAFB2ED00E0DAE2 /* Products */;
 			projectDirPath = "";
@@ -406,11 +410,13 @@
 				DEVELOPMENT_TEAM = 438RLR53H4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CommVn/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Vui lòng cho phép truy cập để chụp ảnh hồ sơ";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Vui lòng cho phép truy cập để chọn một ảnh cho hồ sơ";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -435,11 +441,13 @@
 				DEVELOPMENT_TEAM = 438RLR53H4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CommVn/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Vui lòng cho phép truy cập để chụp ảnh hồ sơ";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Vui lòng cho phép truy cập để chọn một ảnh cho hồ sơ";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -486,6 +494,14 @@
 				minimumVersion = 2.7.4;
 			};
 		};
+		00CE66772CD0E4F4003C2FF2 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -498,6 +514,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 00329F892CD0808900D9CCE0 /* XCRemoteSwiftPackageReference "TOCropViewController" */;
 			productName = TOCropViewController;
+		};
+		00CE66782CD0E4F4003C2FF2 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 00CE66772CD0E4F4003C2FF2 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

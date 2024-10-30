@@ -5,211 +5,39 @@ import TOCropViewController
 class RegisterViewController: UIViewController {
     
     //MARK: - Properties
-    private let scrollView: UIScrollView = {
-        let _scrollView = UIScrollView()
-        _scrollView.clipsToBounds = true
-        _scrollView.showsHorizontalScrollIndicator = false
-        _scrollView.showsVerticalScrollIndicator = false
-        return _scrollView
-    }()
     
     private let imageView: UIImageView = {
         let _imgView = UIImageView()
-        _imgView.image = UIImage(named: "addAvatar")
+        _imgView.image = UIImage(named: "avatarDefault")
         _imgView.contentMode = .scaleAspectFill
         _imgView.layer.borderWidth = 1
         _imgView.layer.borderColor = UIColor.lightGray.cgColor
         _imgView.tintColor = .lightGray
-        _imgView.layer.cornerRadius = _imgView.width / 2
         _imgView.clipsToBounds = true
         _imgView.isUserInteractionEnabled = true
         return _imgView
     }()
     
-    private let firstNameTF: UITextField = {
-        let _textField = UITextField()
-        _textField.placeholder = "First Name..."
-        _textField.autocorrectionType = .no // off auto edit "."
-        _textField.returnKeyType = .continue
-        _textField.layer.cornerRadius = 12
-        _textField.layer.borderColor = UIColor.lightGray.cgColor
-        _textField.layer.borderWidth = 1
-        
-        _textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
-        _textField.leftViewMode = .always
-        
-        return _textField
+    private let stackView: UIStackView = {
+        let _stackView = UIStackView()
+        _stackView.axis = .vertical
+        _stackView.spacing = 20
+        _stackView.alignment = .fill
+        _stackView.distribution = .fill
+        _stackView.translatesAutoresizingMaskIntoConstraints = false
+        return _stackView
     }()
     
-    private let repoFirstNameLabel: UILabel = {
-        let _label = UILabel()
-        _label.textColor = .error
-        _label.text = ""
-        _label.font = .systemFont(ofSize: 12, weight: .medium)
-        _label.textAlignment = .left
-        _label.numberOfLines = 0
-        return _label
-    }()
-    
-    private let lastNameTF: UITextField = {
-        let _textField = UITextField()
-        _textField.placeholder = "Last Name..."
-        _textField.autocorrectionType = .no // off auto edit "."
-        _textField.returnKeyType = .continue
-        _textField.layer.cornerRadius = 12
-        _textField.layer.borderColor = UIColor.lightGray.cgColor
-        _textField.layer.borderWidth = 1
-        
-        _textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
-        _textField.leftViewMode = .always
-        
-        return _textField
-    }()
-    
-    private let repoLastNameLabel: UILabel = {
-        let _label = UILabel()
-        _label.textColor = .error
-        _label.text = ""
-        _label.font = .systemFont(ofSize: 12, weight: .medium)
-        _label.textAlignment = .left
-        _label.numberOfLines = 0
-        return _label
-    }()
-    
-    private let emailTF: UITextField = {
-        let _textField = UITextField()
-        _textField.placeholder = "Email Address..."
-        _textField.autocapitalizationType = .none // off capital
-        _textField.autocorrectionType = .no // off auto edit "."
-        _textField.returnKeyType = .continue
-        _textField.layer.cornerRadius = 12
-        _textField.layer.borderColor = UIColor.lightGray.cgColor
-        _textField.layer.borderWidth = 1
-        
-        _textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
-        _textField.leftViewMode = .always
-        
-        return _textField
-    }()
-    
-    private let repoEmailLabel: UILabel = {
-        let _label = UILabel()
-        _label.textColor = .error
-        _label.text = ""
-        _label.font = .systemFont(ofSize: 12, weight: .medium)
-        _label.textAlignment = .left
-        _label.numberOfLines = 0
-        return _label
-    }()
-    
-    //MARK: -- Password Text Field
-    private let passwordTF: UITextField = {
-        let _textField = UITextField()
-        _textField.placeholder = "Password..."
-        _textField.autocapitalizationType = .none
-        _textField.autocorrectionType = .no
-        _textField.returnKeyType = .continue
-        _textField.layer.borderColor = UIColor.lightGray.cgColor
-        _textField.layer.borderWidth = 1
-        _textField.layer.cornerRadius = 12
-        _textField.isSecureTextEntry = true
-        _textField.textContentType = .oneTimeCode // fix wanring: Cannot show Automatic Strong Passwords for app bundleID when signup
-        
-        _textField.leftView = UIView(frame: CGRect(x: 0,
-                                                   y: 0,
-                                                   width: 15,
-                                                   height: 0))
-        _textField.leftViewMode = .always
-        
-        return _textField
-    }()
-    
-    private let repoPwLabel: UILabel = {
-        let _label = UILabel()
-        _label.textColor = .error
-        _label.text = ""
-        _label.font = .systemFont(ofSize: 12, weight: .medium)
-        _label.textAlignment = .left
-        _label.numberOfLines = 0
-        return _label
-    }()
-    
-    private let eyeIcon: UIImageView = {
-        let _imageView = UIImageView()
-        _imageView.image = UIImage(systemName: "eye.slash")
-        _imageView.tintColor = .lightGray
-        _imageView.frame = CGRect(x: 0,
-                                  y: 0,
-                                  width: 24,
-                                  height: 24)
-        return _imageView
-    }()
-    
-    private let rightViewTF: UIView = {
-        let _view = UIView()
-        _view.frame = CGRect(x: 0,
-                             y: 0,
-                             width: 24 + 15,
-                             height: 24)
-        return _view
-    }()
-    
-    //MARK: -- Confirm Password Text Field
-    private let confirmPwTF: UITextField = {
-        let _textField = UITextField()
-        _textField.placeholder = "Confirm Password..."
-        _textField.autocapitalizationType = .none
-        _textField.autocorrectionType = .no
-        _textField.returnKeyType = .done
-        _textField.layer.borderColor = UIColor.lightGray.cgColor
-        _textField.layer.borderWidth = 1
-        _textField.layer.cornerRadius = 12
-        _textField.isSecureTextEntry = true
-        _textField.textContentType = .password
-        _textField.leftView = UIView(frame: CGRect(x: 0,
-                                                   y: 0,
-                                                   width: 15,
-                                                   height: 0))
-        _textField.leftViewMode = .always
-        
-        return _textField
-    }()
-    
-    private let repoConfirmPwLabel: UILabel = {
-        let _label = UILabel()
-        _label.textColor = .error
-        _label.text = ""
-        _label.font = .systemFont(ofSize: 12, weight: .medium)
-        _label.textAlignment = .left
-        _label.numberOfLines = 0
-        return _label
-    }()
-    
-    private let eyeIcon2: UIImageView = {
-        let _imageView = UIImageView()
-        _imageView.image = UIImage(systemName: "eye.slash")
-        _imageView.tintColor = .lightGray
-        _imageView.frame = CGRect(x: 0,
-                                  y: 0,
-                                  width: 24,
-                                  height: 24)
-        return _imageView
-    }()
-    
-    private let rightViewTF2: UIView = {
-        let _view = UIView()
-        _view.frame = CGRect(x: 0,
-                             y: 0,
-                             width: 24 + 15,
-                             height: 24)
-        return _view
-    }()
-    
+    private lazy var firstNameField: UITextField = createTextField(placeholder: "Họ đệm...", autocapitalizationType: .words)
+    private lazy var lastNameField: UITextField = createTextField(placeholder: "Tên...", autocapitalizationType: .words)
+    private lazy var emailField: UITextField = createTextField(placeholder: "Email...")
+    private lazy var passwordField: UITextField = createTextField(placeholder: "Mật khẩu mới...", isSecureTextEntry: true, textContentType: .oneTimeCode)
+    private lazy var confirmPasswordField: UITextField = createTextField(placeholder: "Xác nhận mật khẩu mới...", returnKeyType: .done, isSecureTextEntry: true, textContentType: .password)
     
     private let registerButton: UIButton = {
         let _button = UIButton()
-        _button.setTitle("Register", for: .normal)
-        _button.backgroundColor = .systemGreen
+        _button.setTitle("Đăng ký", for: .normal)
+        _button.backgroundColor = .accent
         _button.setTitleColor(.white, for: .normal)
         _button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
         _button.layer.cornerRadius = 12
@@ -221,106 +49,56 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        configurations()
     }
     
-    //MARK: - Layout SubView
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        scrollView.frame = view.bounds
-        let size = scrollView.width / 3
-        imageView.frame = CGRect(x: (scrollView.width - size) / 2,
-                                 y: 20,
-                                 width: size,
-                                 height: size)
-        imageView.layer.cornerRadius = size / 2
-        firstNameTF.frame = CGRect(x: 30,
-                                   y: imageView.bottom + 10,
-                                   width: scrollView.width - 60,
-                                   height: 52)
-        repoFirstNameLabel.frame = CGRect(x: 30,
-                                          y: firstNameTF.bottom + 4,
-                                          width: scrollView.width - 60,
-                                          height: 24)
-        lastNameTF.frame = CGRect(x: 30,
-                                  y: repoFirstNameLabel.bottom + 4,
-                                  width: scrollView.width - 60,
-                                  height: 52)
-        repoLastNameLabel.frame = CGRect(x: 30,
-                                         y: lastNameTF.bottom + 4,
-                                         width: scrollView.width - 60,
-                                         height: 24)
-        emailTF.frame = CGRect(x: 30,
-                               y: repoLastNameLabel.bottom + 4,
-                               width: scrollView.width - 60,
-                               height: 52)
-        repoEmailLabel.frame = CGRect(x: 30,
-                                      y: emailTF.bottom + 4,
-                                      width: scrollView.width - 60,
-                                      height: 24)
-        passwordTF.frame = CGRect(x: 30,
-                                  y: repoEmailLabel.bottom + 4,
-                                  width: scrollView.width - 60,
-                                  height: 52)
-        repoPwLabel.frame = CGRect(x: 30,
-                                   y: passwordTF.bottom + 4,
-                                   width: scrollView.width - 60,
-                                   height: 24)
-        confirmPwTF.frame = CGRect(x: 30,
-                                   y: repoPwLabel.bottom + 4,
-                                   width: scrollView.width - 60,
-                                   height: 52)
-        repoConfirmPwLabel.frame = CGRect(x: 30,
-                                          y: confirmPwTF.bottom + 4,
-                                          width: scrollView.width - 60,
-                                          height: 24)
-        registerButton.frame = CGRect(x: 30,
-                                      y: repoConfirmPwLabel.bottom + 20,
-                                      width: scrollView.width - 60,
-                                      height: 52)
-    }
-    
-    //MARK: - Login Button Tapped
+    //MARK: - Register Button Tapped
     @objc private func registerButtonTapped() {
-        repoFirstNameLabel.text = ""
-        repoLastNameLabel.text = ""
-        repoEmailLabel.text = ""
-        repoPwLabel.text = ""
-        repoConfirmPwLabel.text = ""
-        firstNameTF.layer.borderColor = UIColor.lightGray.cgColor
-        lastNameTF.layer.borderColor = UIColor.lightGray.cgColor
-        emailTF.layer.borderColor = UIColor.lightGray.cgColor
-        passwordTF.layer.borderColor = UIColor.lightGray.cgColor
-        confirmPwTF.layer.borderColor = UIColor.lightGray.cgColor
+        firstNameField.placeholder = "Họ đệm..."
+        lastNameField.placeholder = "Tên..."
+        emailField.placeholder = "Email..."
+        passwordField.placeholder = "Mật khẩu mới..."
+        confirmPasswordField.placeholder = "Xác nhận mật khẩu mới..."
+        firstNameField.layer.borderColor = UIColor.lightGray.cgColor
+        lastNameField.layer.borderColor = UIColor.lightGray.cgColor
+        emailField.layer.borderColor = UIColor.lightGray.cgColor
+        passwordField.layer.borderColor = UIColor.lightGray.cgColor
+        confirmPasswordField.layer.borderColor = UIColor.lightGray.cgColor
         
-        firstNameTF.resignFirstResponder()
-        lastNameTF.resignFirstResponder()
-        emailTF.resignFirstResponder()
-        passwordTF.resignFirstResponder()
-        confirmPwTF.resignFirstResponder()
+        firstNameField.resignFirstResponder()
+        lastNameField.resignFirstResponder()
+        emailField.resignFirstResponder()
+        passwordField.resignFirstResponder()
+        confirmPasswordField.resignFirstResponder()
         
-        if let firstNameError = TextFieldValidator.validateFirstName(firstNameTF.text) {
-            repoFirstNameLabel.text = firstNameError.localizedDescription
-            firstNameTF.layer.borderColor = UIColor.error.cgColor
+        if let firstNameError = TextFieldValidator.validateFirstName(firstNameField.text) {
+            firstNameField.text = ""
+            firstNameField.placeholder = firstNameError.localizedDescription
+            firstNameField.layer.borderColor = UIColor.error.cgColor
             return
         }
-        if let lastNameError = TextFieldValidator.validateLastName(lastNameTF.text) {
-            repoLastNameLabel.text = lastNameError.localizedDescription
-            lastNameTF.layer.borderColor = UIColor.error.cgColor
+        if let lastNameError = TextFieldValidator.validateLastName(lastNameField.text) {
+            lastNameField.text = ""
+            lastNameField.placeholder = lastNameError.localizedDescription
+            lastNameField.layer.borderColor = UIColor.error.cgColor
             return
         }
-        if let emailError = TextFieldValidator.validateEmail(emailTF.text) {
-            repoEmailLabel.text = emailError.localizedDescription
-            emailTF.layer.borderColor = UIColor.error.cgColor
+        if let emailError = TextFieldValidator.validateEmail(emailField.text) {
+            emailField.text = ""
+            emailField.placeholder = emailError.localizedDescription
+            emailField.layer.borderColor = UIColor.error.cgColor
             return
         }
-        if let passwordError = TextFieldValidator.validatePassword(passwordTF.text) {
-            repoPwLabel.text = passwordError.localizedDescription
-            passwordTF.layer.borderColor = UIColor.error.cgColor
+        if let passwordError = TextFieldValidator.validatePassword(passwordField.text) {
+            passwordField.text = ""
+            passwordField.placeholder = passwordError.localizedDescription
+            passwordField.layer.borderColor = UIColor.error.cgColor
             return
         }
-        if let confirmPw = TextFieldValidator.validateConfirmPassword(passwordTF.text, confirmPassword: confirmPwTF.text) {
-            repoConfirmPwLabel.text = confirmPw.localizedDescription
-            confirmPwTF.layer.borderColor = UIColor.error.cgColor
+        if let confirmPw = TextFieldValidator.validateConfirmPassword(passwordField.text, confirmPassword: confirmPasswordField.text) {
+            confirmPasswordField.text = ""
+            confirmPasswordField.placeholder = confirmPw.localizedDescription
+            confirmPasswordField.layer.borderColor = UIColor.error.cgColor
             return
         }
         
@@ -332,55 +110,65 @@ class RegisterViewController: UIViewController {
 //MARK: - RegisterViewController
 extension RegisterViewController {
     
-    //MARK: - Setup Views
-    private func setupViews() {
-        view.backgroundColor = .white
-        title = "Register"
+    //MARK: - Configurations
+    private func configurations() {
+        firstNameField.delegate = self
+        lastNameField.delegate = self
+        emailField.delegate = self
+        passwordField.delegate = self
+        confirmPasswordField.delegate = self
         
         registerButton.addTarget(self,
                                  action: #selector(registerButtonTapped),
                                  for: .touchUpInside)
         
-        // Add eyeIcon in passwordTF
-        passwordTF.addShowPassword(eyeIcon)
-        confirmPwTF.addShowPassword(eyeIcon2)
-        
-        firstNameTF.delegate = self
-        lastNameTF.delegate = self
-        emailTF.delegate = self
-        passwordTF.delegate = self
-        confirmPwTF.delegate = self
-        
-        // Add subviews
-        view.addSubview(scrollView)
-        scrollView.addSubview(imageView)
-        scrollView.addSubview(firstNameTF)
-        scrollView.addSubview(repoFirstNameLabel)
-        scrollView.addSubview(lastNameTF)
-        scrollView.addSubview(repoLastNameLabel)
-        scrollView.addSubview(emailTF)
-        scrollView.addSubview(repoEmailLabel)
-        scrollView.addSubview(passwordTF)
-        scrollView.addSubview(repoPwLabel)
-        scrollView.addSubview(confirmPwTF)
-        scrollView.addSubview(repoConfirmPwLabel)
-        /// subview
-        rightViewTF.addSubview(eyeIcon)
-        eyeIcon.center = rightViewTF.center
-        passwordTF.rightView = rightViewTF
-        
-        rightViewTF2.addSubview(eyeIcon2)
-        eyeIcon2.center = rightViewTF2.center
-        confirmPwTF.rightView = rightViewTF2
-        ///
-        scrollView.addSubview(registerButton)
-        
-        //handle more avatars
+        //Handle more avatars
         let gesture = UITapGestureRecognizer(target: self,
                                              action: #selector(didTapChangeProfilePic))
         gesture.numberOfTapsRequired = 1
         gesture.numberOfTouchesRequired = 1
         imageView.addGestureRecognizer(gesture)
+    }
+    
+    //MARK: - Setup Views
+    private func setupViews() {
+        view.backgroundColor = .systemBackground
+        let sizeImage = view.width / 3
+        
+        view.addSubview(imageView)
+        view.addSubview(stackView)
+        view.addSubview(registerButton)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        registerButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        stackView.addArrangedSubview(firstNameField)
+        stackView.addArrangedSubview(lastNameField)
+        stackView.addArrangedSubview(emailField)
+        stackView.addArrangedSubview(passwordField)
+        stackView.addArrangedSubview(confirmPasswordField)
+        
+        
+        imageView.layer.cornerRadius = sizeImage / 2
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            imageView.widthAnchor.constraint(equalToConstant: sizeImage),
+            imageView.heightAnchor.constraint(equalToConstant: sizeImage)
+        ])
+        
+        NSLayoutConstraint.activate([
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            stackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20)
+        ])
+        
+        NSLayoutConstraint.activate([
+            registerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            registerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            registerButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 30),
+            registerButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
     
     //MARK: - Show form sheet select "chọn ảnh" or " chụp ảnh "
@@ -396,14 +184,14 @@ extension RegisterViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // Xử lý enter một cách tuần tự
         switch textField {
-        case firstNameTF:
-            lastNameTF.becomeFirstResponder()
-        case lastNameTF:
-            emailTF.becomeFirstResponder()
-        case emailTF:
-            passwordTF.becomeFirstResponder()
-        case passwordTF:
-            confirmPwTF.becomeFirstResponder()
+        case firstNameField:
+            lastNameField.becomeFirstResponder()
+        case lastNameField:
+            emailField.becomeFirstResponder()
+        case emailField:
+            passwordField.becomeFirstResponder()
+        case passwordField:
+            confirmPasswordField.becomeFirstResponder()
         default:
             registerButtonTapped()
         }
@@ -511,7 +299,7 @@ extension RegisterViewController: TOCropViewControllerDelegate {
         imageView.image = image
         cropViewController.dismiss(animated: true, completion: nil)
     }
-
+    
     func cropViewController(_ cropViewController: TOCropViewController, didFinishCancelled cancelled: Bool) {
         cropViewController.dismiss(animated: true, completion: nil)
     }
